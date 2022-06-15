@@ -8,7 +8,7 @@ function getInfo() {
 function checkAPI() {
     
     AP.context.getContext(function(response){
-        console.log(response);
+        console.log(response.jira.issue.key);
     });
     // AP.request('/rest/api/2/issue/DW-1/changelog', {
     //     success: function(res) {

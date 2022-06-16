@@ -3,25 +3,36 @@ function getInfo() {
     debugger;
     console.log("something");
     debugger;
+    console.log("something else");
 }
 
 function checkAPI() {
-
     AP.context.getContext().then(
         response => {
-            AP.request(`/rest/api/2/issue/${response.jira.issue.key}/changelog`).then(
-                res => {
-                    console.log(res);
-                });
+            let issueKey;
+
+            debugger;
+            issueKey = response.jira.issue.key;
+            if(issueKey){
+                AP.request(`/rest/api/2/issue/${issueKey}/changelog`).then(
+                    res => {
+                        let listHistoryStatus;
+
+                        debugger;
+                        const listHistoryItem = res.values;
+                        listHistoryStatus = listHistoryItem.filter(findStatusItemOfHistory);
+                        console.log(listHistoryStatus);
+                    }
+                );
+
+            }
         }
     );
-    
-    // AP.context.getContext(function(response){
-    //     console.log(response.jira.issue.key);
-    // });
-    // AP.request('/rest/api/2/issue/DW-1/changelog', {
-    //     success: function(res) {
-    //         console.log(res);
-    //     }
-    // });
 }
+
+function findStatusItemOfHistory(value, index, array) {
+    let fieldIdOfStatus;
+
+    fieldIdOfStatus = value.items.fieldId;
+    return fieldIdOfStatus == "status";
+  }

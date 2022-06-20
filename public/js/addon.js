@@ -8,11 +8,11 @@ function checkAPI() {
             issueKey = response.jira.issue.key;
             if(issueKey){
                 AP.request(`/rest/api/2/issue/${issueKey}/changelog`)
-                .then(res => {
+                .then((err, res, body) => {
                     let resObj, listHistoryItem, listHistoryStatus;
                     debugger;
                     resObj = JSON.parse(res);
-                    listHistoryItem = res.values;
+                    listHistoryItem = resObj.values;
                     listHistoryStatus = listHistoryItem.filter(findStatusItemOfHistory);
                     console.log(listHistoryStatus);
                 })

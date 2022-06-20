@@ -26,5 +26,6 @@ function findStatusItemOfHistory(value, index, array) {
     let fieldIdOfStatus;
 
     fieldIdOfStatus = value.items.fieldId;
+    debugger;
     return fieldIdOfStatus == "status";
   }

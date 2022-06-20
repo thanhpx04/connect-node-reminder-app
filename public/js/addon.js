@@ -25,7 +25,7 @@ function checkAPI() {
 function findStatusItemOfHistory(value, index, array) {
     let fieldIdOfStatus;
 
-    fieldIdOfStatus = value.items.fieldId;
+    fieldIdOfStatus = value.items[0].fieldId;
     debugger;
     return fieldIdOfStatus == "status";
   }

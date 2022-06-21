@@ -11,10 +11,8 @@ function checkAPI() {
                 .then(res => {
                     let resObj, listHistoryItem, newestStatus;
 
-                    debugger;
                     resObj = JSON.parse(res.body);
                     listHistoryItem = resObj.values;
-                    console.log(listHistoryItem);
                     // get the newest status item of history
                     newestStatus = getNewestHistoryItemStatus(listHistoryItem);
                     // append html to display data

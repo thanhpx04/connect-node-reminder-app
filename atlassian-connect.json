@@ -4,11 +4,7 @@
     "description": "Demo app on issue view screen",
     "baseUrl": "https://crmprm-reminder.azurewebsites.net",
     "authentication": {
-      "type": "jwt"
-    },
-    "lifecycle": {
-        "installed": "/installed",
-        "uninstalled": "/uninstalled"
+        "type": "none"
     },
     "scopes": [
         "READ"
@@ -19,8 +15,8 @@
     "modules": {
         "webPanels": [
           {
-            "url": "/main?issueKey={issue.key}",
-            "location": "atl.jira.view.issue.left.context",
+            "url": "/main",
+            "location": "atl.jira.view.issue.right.context",
             "name": {
               "value": "Reminder app"
             },

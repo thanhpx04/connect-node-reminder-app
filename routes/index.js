@@ -5,75 +5,20 @@ export default function routes(app, addon) {
         res.redirect('/atlassian-connect.json');
     });
 
-    app.get('/main', addon.authenticate(), (req, res) => {
-        const {issueKey} = req.query
-        getHistoryItem(addon, req, issueKey).then((summary) => {
-          res.render(
-            'main.hbs',
-            {
-                title: 'Main',
-                newestHistoryStatus: summary,
-                issueKey: issueKey
-            }
-          );
-        })
+    // This is an example route used by "generalPages" module (see atlassian-connect.json).
+    // Verify that the incoming request is authenticated with Atlassian Connect.
+    app.get('/main', (req, res) => {
+        // Rendering a template is easy; the render method takes two params: the name of the component or template file, and its props.
+        // Handlebars and jsx are both supported, but please note that jsx changes require `npm run watch-jsx` in order to be picked up by the server.
+        res.render(
+          'hello-world.hbs', // change this to 'hello-world.jsx' to use the Atlaskit & React version
+          {
+            title: 'Atlassian Connect'
+            //, issueId: req.query['issueId']
+            //, browserOnly: true // you can set this to disable server-side rendering for react views
+          }
+        );
     });
-
-    async function getHistoryItem (addon, req, issueKey)  {
-      return new Promise((resolve, reject) => {
-        var httpClient = addon.httpClient(req);
-        httpClient.get(`/rest/api/3/issue/${issueKey}`, function (err, res, body) {
-            resolve(JSON.parse(body).fields.summary)
-        });
-        //   var httpClient = addon.httpClient(req);
-
-        //   httpClient.get(`/rest/api/2/issue/${issueKey}/changelog`, function (err, res, body) {
-        //       debugger
-        //       console.log(JSON.parse(body).values)
-        //       resolve(JSON.parse(body).values[0].items[0].toString)
-              
-        //     // var listHistoryItem = JSON.parse(body).values;
-        //     // // get the newest status item of history
-        //     // var newestStatus = getNewestHistoryItemStatus(listHistoryItem);
-        //     // resolve(calculateMillisecond(newestStatus))
-        //   });
-      })
-    }
-    
-    // const getNewestHistoryItemStatus = (listHistoryItem) => {
-    //     const listHistoryStatus = listHistoryItem.filter(findStatusItemOfHistory);
-    //     let newestStatus;
-    
-    //     newestStatus = listHistoryStatus[0];
-    //     if (listHistoryStatus.length > 1) {
-    //         // new array avoid Mutation in JavaScript
-    //         const listStatusOrderedCreatedDates = [...listHistoryStatus].sort(function(current, next) {
-    //             return Date.parse(next.created) - Date.parse(current.created);
-    //         });
-    //         newestStatus = listStatusOrderedCreatedDates[0];
-    //     }
-        
-    //     return newestStatus;
-    // }
-
-    // const findStatusItemOfHistory = (value, index, array) => {
-    //     let fieldIdOfStatus = value.items[0].fieldId;
-    //     return fieldIdOfStatus == "status";
-    // }
-    
-    // const calculateMillisecond = (newestStatus) => {
-    //     let difMillisecond = ( new Date() - new Date(newestStatus.created) ); // milliseconds between now & newestStatus
-    //     let difDays = Math.floor(difMillisecond / 86400000); // days
-    //     let difHours = Math.floor((difMillisecond % 86400000) / 3600000); // hours
-    //     let difMinutes = Math.round(((difMillisecond % 86400000) % 3600000) / 60000); // minutes
-    
-    //     return {
-    //         status: newestStatus.items[0].toString,
-    //         days: difDays,
-    //         hours: difHours,
-    //         minutes: difMinutes
-    //     };
-    // }
 
     // Add additional route handlers here...
 }

@@ -15,7 +15,7 @@
     "modules": {
         "webPanels": [
           {
-            "url": "/main",
+            "url": "/main?issueKey={issue.key}",
             "location": "atl.jira.view.issue.right.context",
             "name": {
               "value": "Reminder app"

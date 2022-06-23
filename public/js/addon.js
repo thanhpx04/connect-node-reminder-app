@@ -46,19 +46,22 @@ function getNewestHistoryItemStatus(listHistoryItem) {
 }
 
 function calculateMillisecond(newestStatus) {
-    let difMillisecond = ( new Date() - new Date(newestStatus.created) ); // milliseconds between now & newestStatus
-    let difDays = Math.floor(difMillisecond / 86400000); // days
-    let difHours = Math.floor((difMillisecond % 86400000) / 3600000); // hours
-    let difMinutes = Math.round(((difMillisecond % 86400000) % 3600000) / 60000); // minutes
-
-    return {
-        days: difDays,
-        hours: difHours,
-        minutes: difMinutes
-    };
+    if (newestStatus) {
+        let difMillisecond = ( new Date() - new Date(newestStatus.created) ); // milliseconds between now & newestStatus
+        let difDays = Math.floor(difMillisecond / 86400000); // days
+        let difHours = Math.floor((difMillisecond % 86400000) / 3600000); // hours
+        let difMinutes = Math.round(((difMillisecond % 86400000) % 3600000) / 60000); // minutes
+    
+        return {
+            status: newestStatus.items[0].toString,
+            days: difDays,
+            hours: difHours,
+            minutes: difMinutes
+        };
+    } else return {};
 }
 
-function displayData(newestStatus, data){
+function displayData(data){
     let element = document.getElementById("details");
     let template = [];
 
@@ -66,7 +69,7 @@ function displayData(newestStatus, data){
     $("#details").empty();
     template.push(
         '<div class="aui-message">',
-            '<p class="title"><strong>Current status: ' + newestStatus.items[0].toString + '</strong></p>',
+            '<p class="title"><strong>Current status: ' + data.status + '</strong></p>',
             '<p>This status was hold for <time>'+ data.days +' days, '+ data.hours +' hours, '+ data.minutes +' minute.</time></p>',
         '</div>'
     );

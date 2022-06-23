@@ -7,12 +7,12 @@ export default function routes(app, addon) {
 
     app.get('/main', (req, res) => {
         const {issueKey} = req.query
-        getHistoryItem(addon, req, issueKey).then((data) => {
+        getHistoryItem(addon, req, issueKey).then((newestHistoryStatus) => {
           res.render(
             'main.hbs',
             {
                 title: 'Main',
-                timeObj: data,
+                newestHistoryStatus: newestHistoryStatus,
                 issueKey: issueKey
             }
           );
@@ -21,22 +21,23 @@ export default function routes(app, addon) {
 
     async function getHistoryItem (addon, req, issueKey)  {
       return new Promise((resolve, reject) => {
-          var httpClient = addon.httpClient(req);
+        var httpClient = addon.httpClient(req);
+        httpClient.get(`/rest/api/3/issue/${issueKey}`, function (err, res, body) {
+            resolve(JSON.parse(body).fields.summary)
+        });
+        //   var httpClient = addon.httpClient(req);
 
-          httpClient.get(`/rest/api/2/issue/${issueKey}/changelog`, function (err, res, body) {
-              resolve(JSON.parse(body).values[0].items[0].toString)
+        //   httpClient.get(`/rest/api/2/issue/${issueKey}/changelog`, function (err, res, body) {
+        //       debugger
+        //       console.log(JSON.parse(body).values)
+        //       resolve(JSON.parse(body).values[0].items[0].toString)
               
-            // var listHistoryItem = JSON.parse(body).values;
-            // // get the newest status item of history
-            // var newestStatus = getNewestHistoryItemStatus(listHistoryItem);
-            // resolve(calculateMillisecond(newestStatus))
-          });
+        //     // var listHistoryItem = JSON.parse(body).values;
+        //     // // get the newest status item of history
+        //     // var newestStatus = getNewestHistoryItemStatus(listHistoryItem);
+        //     // resolve(calculateMillisecond(newestStatus))
+        //   });
       })
-    }
-
-    const findStatusItemOfHistory = (value, index, array) => {
-        let fieldIdOfStatus = value.items[0].fieldId;
-        return fieldIdOfStatus == "status";
     }
     
     const getNewestHistoryItemStatus = (listHistoryItem) => {
@@ -53,6 +54,11 @@ export default function routes(app, addon) {
         }
         
         return newestStatus;
+    }
+
+    const findStatusItemOfHistory = (value, index, array) => {
+        let fieldIdOfStatus = value.items[0].fieldId;
+        return fieldIdOfStatus == "status";
     }
     
     const calculateMillisecond = (newestStatus) => {

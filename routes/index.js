@@ -5,14 +5,14 @@ export default function routes(app, addon) {
         res.redirect('/atlassian-connect.json');
     });
 
-    app.get('/main', (req, res) => {
+    app.get('/main', addon.authenticate(), (req, res) => {
         const {issueKey} = req.query
-        getHistoryItem(addon, req, issueKey).then((newestHistoryStatus) => {
+        getHistoryItem(addon, req, issueKey).then((summary) => {
           res.render(
             'main.hbs',
             {
                 title: 'Main',
-                newestHistoryStatus: newestHistoryStatus,
+                newestHistoryStatus: summary,
                 issueKey: issueKey
             }
           );
@@ -40,40 +40,40 @@ export default function routes(app, addon) {
       })
     }
     
-    const getNewestHistoryItemStatus = (listHistoryItem) => {
-        const listHistoryStatus = listHistoryItem.filter(findStatusItemOfHistory);
-        let newestStatus;
+    // const getNewestHistoryItemStatus = (listHistoryItem) => {
+    //     const listHistoryStatus = listHistoryItem.filter(findStatusItemOfHistory);
+    //     let newestStatus;
     
-        newestStatus = listHistoryStatus[0];
-        if (listHistoryStatus.length > 1) {
-            // new array avoid Mutation in JavaScript
-            const listStatusOrderedCreatedDates = [...listHistoryStatus].sort(function(current, next) {
-                return Date.parse(next.created) - Date.parse(current.created);
-            });
-            newestStatus = listStatusOrderedCreatedDates[0];
-        }
+    //     newestStatus = listHistoryStatus[0];
+    //     if (listHistoryStatus.length > 1) {
+    //         // new array avoid Mutation in JavaScript
+    //         const listStatusOrderedCreatedDates = [...listHistoryStatus].sort(function(current, next) {
+    //             return Date.parse(next.created) - Date.parse(current.created);
+    //         });
+    //         newestStatus = listStatusOrderedCreatedDates[0];
+    //     }
         
-        return newestStatus;
-    }
+    //     return newestStatus;
+    // }
 
-    const findStatusItemOfHistory = (value, index, array) => {
-        let fieldIdOfStatus = value.items[0].fieldId;
-        return fieldIdOfStatus == "status";
-    }
+    // const findStatusItemOfHistory = (value, index, array) => {
+    //     let fieldIdOfStatus = value.items[0].fieldId;
+    //     return fieldIdOfStatus == "status";
+    // }
     
-    const calculateMillisecond = (newestStatus) => {
-        let difMillisecond = ( new Date() - new Date(newestStatus.created) ); // milliseconds between now & newestStatus
-        let difDays = Math.floor(difMillisecond / 86400000); // days
-        let difHours = Math.floor((difMillisecond % 86400000) / 3600000); // hours
-        let difMinutes = Math.round(((difMillisecond % 86400000) % 3600000) / 60000); // minutes
+    // const calculateMillisecond = (newestStatus) => {
+    //     let difMillisecond = ( new Date() - new Date(newestStatus.created) ); // milliseconds between now & newestStatus
+    //     let difDays = Math.floor(difMillisecond / 86400000); // days
+    //     let difHours = Math.floor((difMillisecond % 86400000) / 3600000); // hours
+    //     let difMinutes = Math.round(((difMillisecond % 86400000) % 3600000) / 60000); // minutes
     
-        return {
-            status: newestStatus.items[0].toString,
-            days: difDays,
-            hours: difHours,
-            minutes: difMinutes
-        };
-    }
+    //     return {
+    //         status: newestStatus.items[0].toString,
+    //         days: difDays,
+    //         hours: difHours,
+    //         minutes: difMinutes
+    //     };
+    // }
 
     // Add additional route handlers here...
 }

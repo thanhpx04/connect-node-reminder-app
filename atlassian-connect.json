@@ -4,7 +4,11 @@
     "description": "Demo app on issue view screen",
     "baseUrl": "https://crmprm-reminder.azurewebsites.net",
     "authentication": {
-        "type": "none"
+      "type": "jwt"
+    },
+    "lifecycle": {
+        "installed": "/installed",
+        "uninstalled": "/uninstalled"
     },
     "scopes": [
         "READ"

@@ -24,12 +24,12 @@ export default function routes(app, addon) {
           var httpClient = addon.httpClient(req);
 
           httpClient.get(`/rest/api/2/issue/${issueKey}/changelog`, function (err, res, body) {
-            //   resolve(JSON.parse(body).fields.summary)
+              resolve(JSON.parse(body).values[0].items[0].toString)
               
-            var listHistoryItem = JSON.parse(body).values;
-            // get the newest status item of history
-            var newestStatus = getNewestHistoryItemStatus(listHistoryItem);
-            resolve(calculateMillisecond(newestStatus))
+            // var listHistoryItem = JSON.parse(body).values;
+            // // get the newest status item of history
+            // var newestStatus = getNewestHistoryItemStatus(listHistoryItem);
+            // resolve(calculateMillisecond(newestStatus))
           });
       })
     }

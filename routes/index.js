@@ -8,6 +8,9 @@ export default function routes(app, addon) {
     app.get('/main', addon.authenticate(), (req, res) => {
       const {issueKey} = req.query
       getIssueSummary(addon, req, issueKey).then((issueSummary) => {
+        
+        console.log('issueSummary');
+        console.log(issueSummary);
         res.render(
           'main.hbs',
           {
@@ -23,7 +26,6 @@ export default function routes(app, addon) {
       return new Promise((resolve, reject) => {
         var httpClient = addon.httpClient(req);
         httpClient.get(`/rest/api/2/issue/${issueKey}/changelog`, function (err, res, body) {
-          console.log(JSON.parse(body).values);
           resolve(JSON.parse(body).values);
         });
       })

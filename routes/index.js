@@ -5,11 +5,11 @@ export default function routes(app, addon) {
         res.redirect('/atlassian-connect.json');
     });
 
-    app.get('/main', addon.authenticate(true), (req, res) => {
+    app.get('/main', addon.authenticate(), (req, res) => {
       const {issueKey} = req.query
       getIssueSummary(addon, req, issueKey).then((issueSummary) => {
         res.render(
-          'hello-world.hbs',
+          'main.hbs',
           {
               title: 'Main',
               issueSummary: issueSummary,

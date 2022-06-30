@@ -21,11 +21,11 @@ export default function routes(app, addon) {
 
     async function getIssueSummary (addon, req, issueKey)  {
       return new Promise((resolve, reject) => {
-
-          var httpClient = addon.httpClient(req);
-          httpClient.get(`/rest/api/2/issue/${issueKey}/changelog`, function (err, res, body) {
-              resolve(JSON.parse(body).values)
-          });
+        var httpClient = addon.httpClient(req);
+        httpClient.get(`/rest/api/2/issue/${issueKey}/changelog`, function (err, res, body) {
+          console.log(JSON.parse(body).values);
+          resolve(JSON.parse(body).values);
+        });
       })
     }
 

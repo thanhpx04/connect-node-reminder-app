@@ -23,8 +23,8 @@ export default function routes(app, addon) {
       return new Promise((resolve, reject) => {
 
           var httpClient = addon.httpClient(req);
-          httpClient.get(`/rest/api/3/issue/${issueKey}`, function (err, res, body) {
-              resolve(JSON.parse(body).fields.summary)
+          httpClient.get(`/rest/api/2/issue/${issueKey}/changelog`, function (err, res, body) {
+              resolve(JSON.parse(body).values)
           });
       })
     }

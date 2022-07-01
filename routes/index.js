@@ -8,9 +8,13 @@ export default function routes(app, addon) {
     app.get("/main", addon.authenticate(), (req, res) => {
       const { issueKey } = req.query;
       getIssueSummary(addon, req, issueKey).then((summary) => {
-        res.render("main.hbs", {
-          summary: summary
-        });
+        if (summary) {
+          res.render("main.hbs", {
+            summary: summary
+          });
+        } else {
+          res.render("nodata.hbs");
+        }
       });
     });
 

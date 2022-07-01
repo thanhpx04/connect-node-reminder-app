@@ -42,7 +42,7 @@ export default function routes(app, addon) {
       }
 
       return newestStatus;
-    };
+    }
     
     const calculateMillisecond = (historyStatus) => {
       var result = {
@@ -65,7 +65,7 @@ export default function routes(app, addon) {
         result.minutes = difMinutes;
       }
       return result;
-    };
+    }
 
     // Add additional route handlers here...
 }

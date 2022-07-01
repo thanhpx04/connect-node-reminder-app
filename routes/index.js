@@ -9,8 +9,7 @@ export default function routes(app, addon) {
       const { issueKey } = req.query;
       getIssueSummary(addon, req, issueKey).then((summary) => {
         res.render("main.hbs", {
-          summary: summary,
-          issueKey: issueKey,
+          summary: summary
         });
       });
     });
@@ -49,7 +48,7 @@ export default function routes(app, addon) {
         status: "",
         days: "",
         hours: "",
-        minutes: "",
+        minutes: ""
       };
       if (historyStatus) {
         var difMillisecond = new Date() - new Date(historyStatus.created); // milliseconds between now & newestStatus

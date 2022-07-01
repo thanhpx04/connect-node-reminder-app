@@ -48,12 +48,6 @@ export default function routes(app, addon) {
     }
     
     const calculateMillisecond = (historyStatus) => {
-      var result = {
-        status: "",
-        days: "",
-        hours: "",
-        minutes: ""
-      };
       if (historyStatus) {
         var difMillisecond = new Date() - new Date(historyStatus.created); // milliseconds between now & newestStatus
         var difDays = Math.floor(difMillisecond / 86400000); // days
@@ -62,12 +56,13 @@ export default function routes(app, addon) {
         var curentStatus = historyStatus.items.find((item) => {
           return item.fieldId === "status";
         });
-        result.status = curentStatus.toString;
-        result.days = difDays;
-        result.hours = difHours;
-        result.minutes = difMinutes;
-      }
-      return result;
+        return {
+          status = curentStatus.toString,
+          days = difDays,
+          hours = difHours,
+          minutes = difMinutes
+        };
+      } else return null;
     }
 
     // Add additional route handlers here...

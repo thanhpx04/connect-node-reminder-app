@@ -1,12 +1,12 @@
 {{!< layout}}
 
-<p class="title"><strong>Summary: {{issueSummary}}</strong></p>
+{{!-- <p class="title"><strong>Summary: {{issueSummary}}</strong></p> --}}
 
-<button class="aui-button aui-button-primary" type="button" onclick="checkAPI()">Trigger</button>
+{{!-- <button class="aui-button aui-button-primary" type="button" onclick="checkAPI()">Trigger</button> --}}
 
-<div id="details" style="margin-top: 10px;">
-{{!-- <div class="aui-message">
-  <p class="title"><strong>Current status: Paused</strong></p>
-  <p>Status was hold for <time>01 month, 04 day, 22 hour, 18 minute, 09 second.</time></p>
-</div> --}}
+<div id="details">
+  <div class="aui-message">
+    <p class="title"><strong>Current status: {{summary.status}}</strong></p>
+    <p>Status was hold for <time>{{summary.days}} days, {{summary.hours}} hours, {{summary.minutes}} minutes.</time></p>
+  </div>
 </div>

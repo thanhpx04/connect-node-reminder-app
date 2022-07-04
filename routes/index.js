@@ -57,10 +57,10 @@ export default function routes(app, addon) {
           return item.fieldId === "status";
         });
         return {
-          status = curentStatus.toString,
-          days = difDays,
-          hours = difHours,
-          minutes = difMinutes
+          status: curentStatus.toString,
+          days: difDays,
+          hours: difHours,
+          minutes: difMinutes
         };
       } else return null;
     }
